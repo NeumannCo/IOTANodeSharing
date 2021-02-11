@@ -2,10 +2,10 @@
 class Database{
   
     // specify your own database credentials
-    private $host = "mysql5.wisewolf.de";
-    private $db_name = "db138028_4";
-    private $username = "admin_138028";
-    private $password = "6zsht4Go!";
+    private $host = "host adress";
+    private $db_name = "db name";
+    private $username = "user here";
+    private $password = "password here";
     public $conn;
   
     // get the database connection
