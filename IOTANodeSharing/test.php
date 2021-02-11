@@ -1,6 +1,7 @@
 <?php
     include "api/cryptservice.php";
     include "api/healthcheck.php";
+    include "config/encryption.php";
 
     $adress = "hornet.wisewolf.de";
     $adressEnc = cryptify($adress);

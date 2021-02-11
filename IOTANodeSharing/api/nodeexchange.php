@@ -6,6 +6,7 @@
     // include database and class files
     include_once '../config/database.php';
     include_once 'class_peers.php';
+    include '../config/encryption.php';
     include 'cryptservice.php';
     
     // instantiate database and peers object

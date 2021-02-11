@@ -11,6 +11,7 @@
     
     // instantiate peers object
     include_once 'class_peers.php';
+    include '../config/encryption.php';
     include 'cryptservice.php';
     include 'healthcheck.php';
     
