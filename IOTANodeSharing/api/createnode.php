@@ -12,13 +12,13 @@
     // instantiate peers object
     include 'class_peers.php';
     include '../config/class_encryption.php';
-    include 'cryptservice.php';
     include 'healthcheck.php';
     
     $database = new Database();
     $db = $database->getConnection();
     
     $peers = new Peers($db);
+    $encryption = new Encryption();
     
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
@@ -33,14 +33,14 @@
         if(nodeHealthCheck($data->peerAdress, $data->apiPort) == 200) {
         
             // set peers property values
-            $peers->peerAdress = cryptify($data->peerAdress);
-            $peers->port = cryptify($data->port);
-            $peers->apiPort = cryptify($data->apiPort);
-            $peers->peerID = cryptify($data->peerID);
+            $peers->peerAdress = $encryption->cryptify($data->peerAdress);
+            $peers->port = $encryption->cryptify($data->port);
+            $peers->apiPort = $encryption->cryptify($data->apiPort);
+            $peers->peerID = $encryption->cryptify($data->peerID);
             if(!empty($data->eMail)){
-                $peers->eMail = cryptify($data->eMail);
+                $peers->eMail = $encryption->cryptify($data->eMail);
             } else {
-                $peers->eMail = cryptify("");
+                $peers->eMail = $encryption->cryptify("");
             }
             $peers->dateAdded = date('Y-m-d H:i:s');
             $peers->availability = 1;

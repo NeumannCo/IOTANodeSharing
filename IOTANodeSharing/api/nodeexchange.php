@@ -7,14 +7,14 @@
     include '../config/database.php';
     include 'class_peers.php';
     include '../config/class_encryption.php';
-    include 'cryptservice.php';
     
     // instantiate database and peers object
     $database = new Database();
     $db = $database->getConnection();
     
-    // initialize object
+    // initialize objects
     $peers = new Peers($db);
+    $encryption = new Encryption();
 
     // query peers
     $stmt = $peers->read("test", "test");
@@ -42,8 +42,8 @@
                 $peers_item = "/dns/";
             }
 
-            $peers_item .= decryptify($PeerAdress) . "/tcp/" . decryptify($Port) . "/p2p/" . decryptify($PeerID);
-            $peers_item_array = array("peerID" => $peers_item, "eMail" => decryptify($eMail));
+            $peers_item .= $encryption->decryptify($PeerAdress) . "/tcp/" . $encryption->decryptify($Port) . "/p2p/" . $encryption->decryptify($PeerID);
+            $peers_item_array = array("peerID" => $peers_item, "eMail" => $encryption->decryptify($eMail));
     
             array_push($peers_arr["records"], $peers_item_array);
         }
