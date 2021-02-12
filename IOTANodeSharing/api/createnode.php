@@ -12,13 +12,11 @@
     // instantiate peers object
     include 'class_peers.php';
     include '../config/class_encryption.php';
-    include 'healthcheck.php';
     
     $database = new Database();
     $db = $database->getConnection();
     
     $peers = new Peers($db);
-    $encryption = new Encryption();
     
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
@@ -30,23 +28,24 @@
         !empty($data->apiPort) &&
         !empty($data->peerID)
     ){
-        if(nodeHealthCheck($data->peerAdress, $data->apiPort) == 200) {
+
+        // set peers property values
+        $peers->peerAdress = $data->peerAdress;
+        $peers->port = $data->port;
+        $peers->apiPort = $data->apiPort;
+        $peers->peerID = $data->peerID;
+        if(!empty($data->eMail)){
+            $peers->eMail = $data->eMail;
+        } else {
+            $peers->eMail = "";
+        }
+        $peers->dateAdded = date('Y-m-d H:i:s');
+        $peers->availability = 1;
+        $peers->lastAvailable = date('Y-m-d H:i:s');
+
+        if($peers->healthCheck() == 200 || $peers->healthCheck() == 503 || $peers->healthCheck() == 401) {
         
-            // set peers property values
-            $peers->peerAdress = $encryption->cryptify($data->peerAdress);
-            $peers->port = $encryption->cryptify($data->port);
-            $peers->apiPort = $encryption->cryptify($data->apiPort);
-            $peers->peerID = $encryption->cryptify($data->peerID);
-            if(!empty($data->eMail)){
-                $peers->eMail = $encryption->cryptify($data->eMail);
-            } else {
-                $peers->eMail = $encryption->cryptify("");
-            }
-            $peers->dateAdded = date('Y-m-d H:i:s');
-            $peers->availability = 1;
-            $peers->lastAvailable = date('Y-m-d H:i:s');
-        
-            // create the product
+            // create the peer
             if($peers->create()){
         
                 // set response code - 201 created
@@ -56,7 +55,7 @@
                 echo json_encode(array("message" => "Peer was created."));
             }
         
-            // if unable to create the product, tell the user
+            // if unable to create the peer, tell the user
             else{
         
                 // set response code - 503 service unavailable

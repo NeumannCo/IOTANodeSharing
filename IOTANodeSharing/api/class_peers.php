@@ -45,7 +45,8 @@
 
         // create peer
         function create(){
-        
+            $encryption = new Encryption();
+
             // query to insert record
             $query = "INSERT INTO
                         " . $this->table_name . "
@@ -59,11 +60,11 @@
             $this->lastAvailable=htmlspecialchars(strip_tags($this->lastAvailable));
         
             // bind values
-            $stmt->bindParam(":peerAdress", $this->peerAdress);
-            $stmt->bindParam(":port", $this->port);
-            $stmt->bindParam(":apiPort", $this->apiPort);
-            $stmt->bindParam(":peerID", $this->peerID);
-            $stmt->bindParam(":eMail", $this->eMail);
+            $stmt->bindParam(":peerAdress", $encryption->cryptify($this->peerAdress));
+            $stmt->bindParam(":port", $encryption->cryptify($this->port));
+            $stmt->bindParam(":apiPort", $encryption->cryptify($this->apiPort));
+            $stmt->bindParam(":peerID", $encryption->cryptify($this->peerID));
+            $stmt->bindParam(":eMail", $encryption->cryptify($this->eMail));
             $stmt->bindParam(":availability", $this->availability);
             $stmt->bindParam(":dateAdded", $this->dateAdded);
             $stmt->bindParam(":lastAvailable", $this->lastAvailable);
@@ -75,6 +76,18 @@
         
             return false;
             
+        }
+        // check for node existence
+        function healthCheck() {
+            $url = $this->peerAdress . ':' . $this->apiPort . '/health';
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            curl_close($curl);
+    
+            return $httpcode;
         }
     }
 ?>
