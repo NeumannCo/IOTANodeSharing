@@ -4,9 +4,9 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     // include database and class files
-    include_once '../config/database.php';
-    include_once 'class_peers.php';
-    include '../config/encryption.php';
+    include '../config/database.php';
+    include 'class_peers.php';
+    include '../config/class_encryption.php';
     include 'cryptservice.php';
     
     // instantiate database and peers object

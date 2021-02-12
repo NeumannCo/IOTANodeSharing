@@ -7,11 +7,11 @@
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     
     // get database connection
-    include_once '../config/database.php';
+    include '../config/database.php';
     
     // instantiate peers object
-    include_once 'class_peers.php';
-    include '../config/encryption.php';
+    include 'class_peers.php';
+    include '../config/class_encryption.php';
     include 'cryptservice.php';
     include 'healthcheck.php';
     
