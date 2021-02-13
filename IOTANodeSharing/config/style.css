@@ -1,0 +1,54 @@
+div {
+    margin: auto;
+    width: 960px;
+    border: 1px solid #cca00f;
+    padding: 10px;
+    font-size: medium;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #504f4f;
+    text-align: center;
+}
+
+#header {
+    font-size: larger;
+}
+
+#response {
+    font-size: medium;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#footer {
+    font-size: x-small;
+}
+
+input {
+    width: 500px;
+    margin-bottom: 15px;
+    font-size: medium;
+    padding: 5px;
+}
+
+#port,
+#apiPort {
+    width: 100px;
+}
+
+select {
+    margin-bottom: 15px;
+    font-size: large;
+}
+
+label {
+    font-size: smaller;
+    margin-bottom: 5px;
+}
+
+button {
+    font-size: larger;
+    padding: 15px;
+}
+
+ul {
+    list-style-type: none;
+}

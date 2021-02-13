@@ -33,7 +33,7 @@
     ){
 
         // set peers property values
-        $peers->peerAdress = $data->peerAdress;
+        $peers->peerAdress = str_replace("https://", "", str_replace("http://", "", $data->peerAdress));
         $peers->port = $data->port;
         $peers->apiPort = $data->apiPort;
         $peers->peerID = $data->peerID;
@@ -76,7 +76,7 @@
                     }
 
                     $peers_item .= $encryption->decryptify($PeerAdress) . "/tcp/" . $encryption->decryptify($Port) . "/p2p/" . $encryption->decryptify($PeerID);
-                    $peers_item_array = array("PeerID" => $peers_item);
+                    $peers_item_array = array("peerID" => $peers_item);
             
                     array_push($peers_arr["records"], $peers_item_array);
                 }
@@ -133,7 +133,7 @@
                                 }
 
                                 $peers_item .= $encryption->decryptify($PeerAdress) . "/tcp/" . $encryption->decryptify($Port) . "/p2p/" . $encryption->decryptify($PeerID);
-                                $peers_item_array = array("PeerID" => $peers_item);
+                                $peers_item_array = array("peerID" => $peers_item);
                                 
                                 // save selected peers for later match
                                 $peersToMatch_item = array("ID" => $ID, "eMail" => $encryption->decryptify($eMail));

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Search for Peers</title>
+    <link rel="stylesheet" href="config/style.css">
+
+</head>
+
+<body>
+
+    <div id="header">
+        <h1>Get peers for your node!</h1>
+    </div>
+
+    <div id="main">
+        <form>
+            <label for="peerAdress">Peer Adress (DNS or IP4) *</label><br />
+            <input type="text" name="peerAdress" id="peerAdress" placeholder="e.g. 127.0.0.1 or test.mynode.com"><br />
+            <label for="port">Node Port *</label><br />
+            <input type="number" name="port" id="port" placeholder="e.g. 15600" max="99999"><br />
+            <label for="apiPort">API Port *</label><br />
+            <input type="number" name="apiPort" id="apiPort" placeholder="e.g. 14265 or 5000" max="99999"><br />
+            <label for="peerID">Peering ID *</label><br />
+            <input name="peerID" id="peerID" placeholder="obtained from dashboard"><br />
+            <label for="eMail">E-Mail (optional)</label><br />
+            <input type="email" name="eMail" id="eMail" placeholder="test@mynode.com"><br />
+            <label for="network">Your Node's Network</label><br />
+            <select id="network" name="network">
+                <option value="testnet" selected="selected">Chrysalis Testnet</option>
+            </select><br />
+            <button>Give me peers!!</button>
+        </form>
+    </div>
+
+    <div id="response">
+        <ul id="results"></ul>
+    </div>
+
+    <div id="footer">
+        <p>Created by Conrad Neumann<br>Idea by techteddy</p>
+    </div>
+
+    <script>
+        var form = document.querySelector('form');
+        var data = new FormData(form);
+        var serializeForm = function(form) {
+            var obj = {};
+            var formData = new FormData(form);
+            for (var key of formData.keys()) {
+                obj[key] = formData.get(key);
+            }
+            return obj;
+        };
+        var results = document.getElementById("results");
+
+        document.addEventListener('submit', function(event) {
+            event.preventDefault();
+            results.innerHTML = "<li>Please wait. This may take up to 60 seconds...</li>";
+
+            fetch('http://nodesharing.wisewolf.de/api/getpeers.php', {
+                    method: 'POST',
+                    body: JSON.stringify(serializeForm(event.target)),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8'
+                    }
+                })
+                .then(response => response.json())
+                .then((data) => {
+                    var htmlResult = "";
+
+                    if (data['records']) {
+
+                        htmlResult = '<lh>Your peers:</lh>';
+                        data['records'].forEach((item) => {
+                            htmlResult += '<li>' + item.peerID + '</li>';
+                        });
+                    } else {
+                        htmlResult = '<lh>Error:</lh>';
+                        htmlResult += '<li>' + data.message + '</li>';
+                    }
+                    results.innerHTML = "";
+                    results.insertAdjacentHTML("beforeend", htmlResult);
+                }).catch(function(error) {
+                    console.warn(error);
+                });
+        });
+    </script>
+
+</body>
+
+</html>
