@@ -14,6 +14,7 @@ div {
 }
 
 #response {
+    color: darkred;
     font-size: medium;
     font-family: 'Courier New', Courier, monospace;
 }
