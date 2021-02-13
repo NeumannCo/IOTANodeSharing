@@ -52,3 +52,7 @@ button {
 ul {
     list-style-type: none;
 }
+
+#intro {
+    font-size: smaller;
+}
