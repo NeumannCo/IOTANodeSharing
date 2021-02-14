@@ -70,7 +70,7 @@
             event.preventDefault();
             results.innerHTML = "<li>Please wait. This may take up to 60 seconds...</li>";
 
-            fetch('http://nodesharing.wisewolf.de/api/getpeers.php', {
+            fetch('api/getpeers.php', {
                     method: 'POST',
                     body: JSON.stringify(serializeForm(event.target)),
                     headers: {
