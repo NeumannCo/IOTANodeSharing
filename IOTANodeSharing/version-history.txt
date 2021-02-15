@@ -5,6 +5,11 @@
 - (Prio 3) additional API-entry-point for statistics
 - (Prio 3) Stats Showcase on the website
 
+***** 14.02.2021 - 1.0 Release *****
+- SSL enforced for the website (behaviour changed for API-call)
+- website appearance adjusted
+- MIT-License added
+
 ***** 13.02.2021 - 1.0 Beta *****
 - basic functions deployed
 - basic website deployed
