@@ -1,0 +1,10 @@
+***** Planned changes and features for upcoming versions *****
+- (Prio 1) eliminate possible SQL-injection entry-points
+- (Prio 1) additional API-entry-point for backend tasks
+    -> bulk-checking node availability for nodes, that have been marked as unavailable
+- (Prio 3) additional API-entry-point for statistics
+- (Prio 3) Stats Showcase on the website
+
+***** 13.02.2021 - 1.0 Beta *****
+- basic functions deployed
+- basic website deployed
