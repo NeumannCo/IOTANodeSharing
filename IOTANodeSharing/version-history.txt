@@ -1,9 +1,12 @@
 ***** Planned changes and features for upcoming versions *****
-- (Prio 1) eliminate possible SQL-injection entry-points
-- (Prio 1) additional API-entry-point for backend tasks
-    -> bulk-checking node availability for nodes, that have been marked as unavailable
 - (Prio 3) additional API-entry-point for statistics
 - (Prio 3) Stats Showcase on the website
+
+***** 15.03.2021 - 1.1 *****
+- Cronjobs implemented for regularly health checks
+    + Cronjob to check available nodes every 5 minutes
+    + Cronjob to recheck unavailable nodes once per day
+- Added parameter for API-request to get peers without additional health checks --> "healthCheck":"false"
 
 ***** 14.02.2021 - 1.0 Release *****
 - SSL enforced for the website (behaviour changed for API-call)

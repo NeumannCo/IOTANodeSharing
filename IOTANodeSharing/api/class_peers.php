@@ -216,5 +216,24 @@
         
             return $stmt;
         }
+
+        // read all peers
+        function readAll($available){
+            $encryption = new Encryption();
+
+            // select all query
+            $query = "SELECT p1.ID, p1.PeerAdress, p1.Port, p1.APIPort, p1.PeerID, p1.eMail
+                        FROM " . $this->table_name . " p1
+                        WHERE p1.Availability=:available";
+        
+            // prepare query statement
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":available", $available);
+
+            // execute query
+            $stmt->execute();
+        
+            return $stmt;
+        }
     }
 ?>
