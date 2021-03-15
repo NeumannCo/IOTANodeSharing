@@ -28,6 +28,7 @@ The following information has to be issued in JSON-Format via POST-request:
 - [mandatory] "peerID": the peering ID, that can be found on the nodes dashboard
 - [mandatory] "network": the network, the node is operating in. The possible values are: testnet, mainnet, comnet, devnet
 - [optional]  "eMail": a valid eMail-Adress
+- [optional]  "healthCheck": can be set to "false" to get peers without an additional health check
 
 A successful request returns up to 3 peering-IDs from other nodes in as objects in a "records"-object.
 An unsuccessful request returns a single "message" information.
