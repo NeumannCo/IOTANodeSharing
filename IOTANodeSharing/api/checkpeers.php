@@ -39,12 +39,11 @@
         if($peerToCheck->healthCheck() == 200 || $peerToCheck->healthCheck() == 503 || $peerToCheck->healthCheck() == 401) {
         
             $peerToCheck->updateAvailability();
-            echo "Is healthy.\r\n";
+            echo $ID . " is healthy.\r\n";
 
         } else {
-            $peersHealthy = false;
             $peerToCheck->disable();
-            echo "Is unhealthy and was disabled.\r\n";
+            echo $ID . " is unhealthy and was disabled.\r\n";
         }
     }
 

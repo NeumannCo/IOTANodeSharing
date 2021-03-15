@@ -39,12 +39,16 @@
         if($peerToCheck->healthCheck() == 200 || $peerToCheck->healthCheck() == 503 || $peerToCheck->healthCheck() == 401) {
         
             $peerToCheck->updateAvailability();
-            echo "Is healthy.\r\n";
+            echo $ID . " is healthy.\r\n";
 
         } else {
-            $peersHealthy = false;
-            $peerToCheck->disable();
-            echo "Is unhealthy and was disabled.\r\n";
+            if($DateDifference > 7){
+                $peerToCheck->delete($ID);
+                echo $ID . " is unhealthy for more than 7 days and was deleted.\r\n";
+            } else {
+                $peerToCheck->disable();
+                echo $ID . " is unhealthy for " . $DateDifference . " days and was disabled.\r\n";
+            }
         }
     }
 

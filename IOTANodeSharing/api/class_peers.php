@@ -222,7 +222,7 @@
             $encryption = new Encryption();
 
             // select all query
-            $query = "SELECT p1.ID, p1.PeerAdress, p1.Port, p1.APIPort, p1.PeerID, p1.eMail
+            $query = "SELECT p1.ID, p1.PeerAdress, p1.APIPort, DATEDIFF(NOW(), p1.LastAvailable) AS DateDifference
                         FROM " . $this->table_name . " p1
                         WHERE p1.Availability=:available";
         
@@ -234,6 +234,20 @@
             $stmt->execute();
         
             return $stmt;
+        }
+
+        function delete($id){
+
+            $query = "DELETE FROM " . $this->table_name . " WHERE ID=:id";
+        
+            // prepare query statement
+            $stmt = $this->conn->prepare($query);
+
+            // bind values
+            $stmt->bindParam(":id", $id);
+        
+            // execute query
+            $stmt->execute();
         }
     }
 ?>
