@@ -248,6 +248,17 @@
         
             // execute query
             $stmt->execute();
+
+            $query = "DELETE FROM PeeringStatus WHERE PeersID=:id OR MatchedPeersID=:id";
+        
+            // prepare query statement
+            $stmt = $this->conn->prepare($query);
+
+            // bind values
+            $stmt->bindParam(":id", $id);
+        
+            // execute query
+            $stmt->execute();
         }
     }
 ?>
