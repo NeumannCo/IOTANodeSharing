@@ -46,13 +46,15 @@
         $peers->availability = 1;
         $peers->lastAvailable = date('Y-m-d H:i:s');
         $peers->network = $data->network;
-        if(!empty($data->healthCheck)){
+        if(empty($data->healthCheck)){
             $healthCheck = "true";
+            $requestingPeerHealth = $peers->healthCheck();
         } else {
+            $requestingPeerHealth = 0;
             $healthCheck = $data->healthCheck;
         }
 
-        if($peers->healthCheck() == 200 || $peers->healthCheck() == 503 || $peers->healthCheck() == 401) {
+        if($healthCheck == "false" || $requestingPeerHealth == 200 || $requestingPeerHealth == 401 || $requestingPeerHealth == 503) {
         
             if(!$peers->exists()) {
                 $peers->create();
@@ -125,27 +127,12 @@
                             $peerToCheck->apiPort = $encryption->decryptify($APIPort);
                             $peerToCheck->port = $encryption->decryptify($Port);
 
-                            if($healthCheck == "false") {
-
-                                $peersHealthy = true;
-
-                                // when the given adress is not an IP-Adress but a DNS, the long ID for peering slightly differs
-                                if(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP)) {
-                                    $peers_item = "/ip4/";
-                                } else {
-                                    $peers_item = "/dns/";
-                                }
-
-                                $peers_item .= $encryption->decryptify($PeerAdress) . "/tcp/" . $encryption->decryptify($Port) . "/p2p/" . $encryption->decryptify($PeerID);
-                                $peers_item_array = array("peerID" => $peers_item);
-
-                                // save selected peers for later match
-                                $peersToMatch_item = array("ID" => $ID, "eMail" => $encryption->decryptify($eMail));
-                                array_push($peersToMatch, $peersToMatch_item);
-
-                                array_push($peers_arr["records"], $peers_item_array);
-
-                            } elseif($peerToCheck->healthCheck() == 200 || $peerToCheck->healthCheck() == 503 || $peerToCheck->healthCheck() == 401) {
+                            $requestedPeerHealth = 0;
+                            if($healthCheck == "true") {
+                                $requestedPeerHealth = $peerToCheck->healthCheck();
+                            }
+                            
+                            if($healthCheck == "false" || $requestedPeerHealth == 200 || $requestedPeerHealth == 503 || $requestedPeerHealth == 401) {
                             
                                 $peersHealthy = true;
                                 $peerToCheck->updateAvailability();

@@ -180,8 +180,8 @@
         function match($matchedPeersID){
             $encryption = new Encryption();
 
-            $query = "INSERT INTO PeeringStatus SET PeersID=(SELECT ID FROM " . $this->table_name . " WHERE PeerAdress=:peerAdress AND Port=:port), MatchedPeersID=:matchedPeersID, DateMatched=:dateMatched";
-        
+            $query = "SELECT * FROM PeeringStatus WHERE PeersID=(SELECT ID FROM " . $this->table_name . " WHERE PeerAdress=:peerAdress AND Port=:port) AND MatchedPeersID=:matchedPeersID";
+
             // prepare query statement
             $stmt = $this->conn->prepare($query);
 
@@ -189,10 +189,30 @@
             $stmt->bindParam(":peerAdress", $encryption->cryptify($this->peerAdress));
             $stmt->bindParam(":port", $encryption->cryptify($this->port));
             $stmt->bindParam(":matchedPeersID", $matchedPeersID);
-            $stmt->bindParam(":dateMatched", date('Y-m-d H:i:s'));
-        
+
             // execute query
             $stmt->execute();
+
+            if($stmt->rowCount() > 0){
+                $query = "UPDATE PeeringStatus SET DateMatched=:dateMatched WHERE PeersID=(SELECT ID FROM " . $this->table_name . " WHERE PeerAdress=:peerAdress AND Port=:port) AND MatchedPeersID=:matchedPeersID";
+        
+                // prepare query statement
+                $stmt2 = $this->conn->prepare($query);
+            } else {
+                $query = "INSERT INTO PeeringStatus SET PeersID=(SELECT ID FROM " . $this->table_name . " WHERE PeerAdress=:peerAdress AND Port=:port), MatchedPeersID=:matchedPeersID, DateMatched=:dateMatched";
+        
+                // prepare query statement
+                $stmt2 = $this->conn->prepare($query);
+            }
+
+            // bind values
+            $stmt2->bindParam(":peerAdress", $encryption->cryptify($this->peerAdress));
+            $stmt2->bindParam(":port", $encryption->cryptify($this->port));
+            $stmt2->bindParam(":matchedPeersID", $matchedPeersID);
+            $stmt2->bindParam(":dateMatched", date('Y-m-d H:i:s'));
+            
+            // execute query
+            $stmt2->execute();
         }
 
         function getRecentMatches(){
