@@ -45,7 +45,7 @@
         $stmt = $db->prepare($query);
 
         // bind values
-        $stmt->bindParam(":peerAdress", $encryption->cryptify($data->peerAdress));
+        $stmt->bindParam(":peerAdress", $encryption->cryptify(str_replace("https://", "", str_replace("http://", "", $data->peerAdress))));
         $stmt->bindParam(":port", $encryption->cryptify($data->port));
         $stmt->bindParam(":apiPort", $encryption->cryptify($data->apiPort));
         $stmt->bindParam(":peerID", $encryption->cryptify($data->peerID));
