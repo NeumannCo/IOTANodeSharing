@@ -19,13 +19,11 @@
     $peers = new Peers($db);
 
     // query peers
-    $stmt = $peers->readAll(1);
+    $checkstmt = $peers->readAll(1);
         
     $encryption = new Encryption();
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $peers_item = "";
-
+    while ($row = $checkstmt->fetch(PDO::FETCH_ASSOC)){
         // extract row
         // this will make $row['name'] to
         // just $name only

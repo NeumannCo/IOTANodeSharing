@@ -32,6 +32,29 @@
         !empty($data->network)
     ){
 
+        // *************Logging the request before further processing*************
+        $encryption = new Encryption();
+
+        // query to insert record
+        $query = "INSERT INTO
+                    RequestLog
+                SET
+                    RequestTime=:requestTime, PeerAdress=:peerAdress, Port=:port, APIPort=:apiPort, PeerID=:peerID, Network=:network";
+    
+        // prepare query
+        $stmt = $db->prepare($query);
+
+        // bind values
+        $stmt->bindParam(":peerAdress", $encryption->cryptify($data->peerAdress));
+        $stmt->bindParam(":port", $encryption->cryptify($data->port));
+        $stmt->bindParam(":apiPort", $encryption->cryptify($data->apiPort));
+        $stmt->bindParam(":peerID", $encryption->cryptify($data->peerID));
+        $stmt->bindParam(":requestTime", date('Y-m-d H:i:s'));
+        $stmt->bindParam(":network", $data->network);
+
+        $stmt->execute();
+        // **************************Logging completed****************************
+
         // set peers property values
         $peers->peerAdress = str_replace("https://", "", str_replace("http://", "", $data->peerAdress));
         $peers->port = $data->port;
@@ -53,6 +76,7 @@
             $requestingPeerHealth = 0;
             $healthCheck = $data->healthCheck;
         }
+
 
         if($healthCheck == "false" || $requestingPeerHealth == 200 || $requestingPeerHealth == 401 || $requestingPeerHealth == 503) {
         

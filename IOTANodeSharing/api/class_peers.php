@@ -136,7 +136,7 @@
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
             $output = curl_exec($curl);
             $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
@@ -164,7 +164,7 @@
         function disable(){
             $encryption = new Encryption();
 
-            $query = "UPDATE " . $this->table_name . " SET Availability = 0 WHERE PeerAdress=:peerAdress AND Port=:port";
+            $query = "UPDATE " . $this->table_name . " SET Availability=0 WHERE PeerAdress=:peerAdress AND Port=:port";
         
             // prepare query statement
             $stmt = $this->conn->prepare($query);
@@ -242,7 +242,7 @@
             $encryption = new Encryption();
 
             // select all query
-            $query = "SELECT p1.ID, p1.PeerAdress, p1.APIPort, DATEDIFF(NOW(), p1.LastAvailable) AS DateDifference
+            $query = "SELECT p1.ID, p1.PeerAdress, p1.Port, p1.APIPort, DATEDIFF(NOW(), p1.LastAvailable) AS DateDifference
                         FROM " . $this->table_name . " p1
                         WHERE p1.Availability=:available";
         
