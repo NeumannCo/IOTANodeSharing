@@ -11,7 +11,7 @@
         $encryption = new Encryption();
 
         // select all query
-        $query = "SELECT ID, RequestTime, PeerAdress, Port, APIPort, PeerID, Network FROM RequestLog ORDER BY ID DESC" ;
+        $query = "SELECT ID, RequestTime, PeerAdress, Port, APIPort, PeerID, Network FROM RequestLog ORDER BY ID DESC LIMIT 5000" ;
 
         // prepare query statement
         $stmt = $db->prepare($query);
