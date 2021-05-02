@@ -22,7 +22,17 @@
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
 
-            echo $ID . "; " . $RequestTime . "; " . $encryption->decryptify($PeerAdress) . "; " . $encryption->decryptify($Port) . "; " . $encryption->decryptify($APIPort) . "; " . $encryption->decryptify($PeerID) . "; " . $Network . "<br />\r\n";
+            echo $ID . "; " . $RequestTime . "; ";
+
+            if(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                echo "ip4;";
+            } elseif(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                echo "ip6;";
+            } else {
+                echo "dns;";
+            }
+
+            echo $encryption->decryptify($PeerAdress) . "; " . $encryption->decryptify($Port) . "; " . $encryption->decryptify($APIPort) . "; " . $encryption->decryptify($PeerID) . "; " . $Network . "<br />\r\n";
         }
     } else {
         echo 'Authentication failed.';

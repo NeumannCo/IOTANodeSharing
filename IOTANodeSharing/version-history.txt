@@ -2,6 +2,17 @@
 - (Prio 3) additional API-entry-point for statistics
 - (Prio 3) Stats Showcase on the website
 
+***** 02.05.2021 - 1.3 *****
+- Added IPv6-support (many thanks to Kajover)
+- Limited logfile regarding performance issues
+
+***** 28.04.2021 - 1.2 *****
+- Added multi-net-support
+- Added Chrysalis Mainnet and promoted it to default
+
+***** 18.03.2021 - 1.1b ****
+- Added logfile for issue-tracking
+
 ***** 15.03.2021 - 1.1 *****
 - Cronjobs implemented for regularly health checks
     + Cronjob to check available nodes every 5 minutes

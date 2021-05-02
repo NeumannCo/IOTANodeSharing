@@ -100,8 +100,10 @@
                     extract($row);
 
                     // when the given adress is not an IP-Adress but a DNS, the long ID for peering slightly differs
-                    if(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP)) {
+                    if(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
                         $peers_item = "/ip4/";
+                    } elseif(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                        $peers_item = "/ip6/";
                     } else {
                         $peers_item = "/dns/";
                     }
@@ -162,8 +164,10 @@
                                 $peerToCheck->updateAvailability();
 
                                 // when the given adress is not an IP-Adress but a DNS, the long ID for peering slightly differs
-                                if(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP)) {
+                                if(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
                                     $peers_item = "/ip4/";
+                                } elseif(filter_var($encryption->decryptify($PeerAdress), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                                    $peers_item = "/ip6/";
                                 } else {
                                     $peers_item = "/dns/";
                                 }
