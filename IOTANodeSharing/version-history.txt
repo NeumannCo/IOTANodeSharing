@@ -2,6 +2,9 @@
 - (Prio 3) additional API-entry-point for statistics
 - (Prio 3) Stats Showcase on the website
 
+***** 18.05.2021 - 1.4 *****
+- Health checks are now performed against /health and /api/health DNS-endpoints in addition to Address:Port/health . Thanks @Dr.Electron for pointing out that issue.
+
 ***** 02.05.2021 - 1.3 *****
 - Added IPv6-support (many thanks to Kajover)
 - Limited logfile regarding performance issues

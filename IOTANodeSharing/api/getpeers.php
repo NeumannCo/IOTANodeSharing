@@ -27,7 +27,8 @@
     if(
         !empty($data->peerAdress) &&
         !empty($data->port) &&
-        !empty($data->apiPort) &&
+        // API Port is not mandatory, if the API-Call is provided via DNS - API Port will in these cases be set to 14265
+        //!empty($data->apiPort) &&
         !empty($data->peerID) &&
         !empty($data->network)
     ){
@@ -58,7 +59,11 @@
         // set peers property values
         $peers->peerAdress = str_replace("https://", "", str_replace("http://", "", $data->peerAdress));
         $peers->port = $data->port;
-        $peers->apiPort = $data->apiPort;
+        if (!empty($data->apiPort)) {
+            $peers->apiPort = $data->apiPort;
+        } else {
+            $peers->apiPort = 14265;
+        }
         $peers->peerID = $data->peerID;
         if(!empty($data->eMail)){
             $peers->eMail = $data->eMail;

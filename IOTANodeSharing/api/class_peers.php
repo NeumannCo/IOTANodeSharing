@@ -132,14 +132,34 @@
 
         // check for node existence
         function healthCheck() {
-            $url = $this->peerAdress . ':' . $this->apiPort . '/health';
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
-            $output = curl_exec($curl);
-            $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            curl_close($curl);
+            
+            if(filter_var($this->peerAdress, FILTER_VALIDATE_IP)) {
+                $run = 3;
+            } else {
+                $run = 1;
+            }  
+            // run 1 is checking for DNS/health, run 2 is checking for DNS/api/health, run 3 is checking for IP
+            // if no DNS is provided, DNS-checks are skipped
+
+            do {
+                if ($run == 1) {
+                    $url = 'https://' . $this->peerAdress . '/health';
+                } elseif ($run == 2) {
+                    $url = 'https://' . $this->peerAdress . '/api/health';
+                } elseif ($run == 3) {
+                    $url = $this->peerAdress . ':' . $this->apiPort . '/health';
+                }
+            
+                $curl = curl_init();
+                curl_setopt($curl, CURLOPT_URL, $url);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+                $output = curl_exec($curl);
+                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                curl_close($curl);
+
+                $run++;
+            } while ($httpcode != 200 && $httpcode != 401 && $httpcode != 503 && $run < 4);
     
             return $httpcode;
         }
