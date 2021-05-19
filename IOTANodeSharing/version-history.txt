@@ -2,6 +2,10 @@
 - (Prio 3) additional API-entry-point for statistics
 - (Prio 3) Stats Showcase on the website
 
+***** 19.05.2021 - 1.4b ****
+- health-checks are now also performed against SSL-encrypted IP-addresses
+- self-signed SSL-certificates are no longer a reason to fail the health-check
+
 ***** 18.05.2021 - 1.4 *****
 - Health checks are now performed against /health and /api/health DNS-endpoints in addition to Address:Port/health . Thanks @Dr.Electron for pointing out that issue.
 
