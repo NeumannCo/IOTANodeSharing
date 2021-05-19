@@ -148,18 +148,22 @@
                     $url = 'https://' . $this->peerAdress . '/api/health';
                 } elseif ($run == 3) {
                     $url = $this->peerAdress . ':' . $this->apiPort . '/health';
+                } elseif ($run == 4) {
+                    $url = 'https://' . $this->peerAdress . '/health';
+                } elseif ($run == 5) {
+                    $url = 'https://' . $this->peerAdress . '/api/health';
                 }
-            
+                
                 $curl = curl_init();
                 curl_setopt($curl, CURLOPT_URL, $url);
                 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
-                $output = curl_exec($curl);
+                curl_exec($curl);
                 $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 curl_close($curl);
 
                 $run++;
-            } while ($httpcode != 200 && $httpcode != 401 && $httpcode != 503 && $run < 4);
+            } while ($httpcode != 200 && $httpcode != 401 && $httpcode != 503 && $run < 6);
     
             return $httpcode;
         }
