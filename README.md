@@ -24,10 +24,7 @@ The API has a single endpoint: /getpeers.php
 The following information has to be issued in JSON-Format via POST-request:
 - [mandatory] "peerAdress": the adress of the node. This can be an IP-adress or a DNS-adress.
 - [mandatory] "port": the node-port (normally 15600)
-- [optional] "apiPort": the port of the nodes API. If empty, the API port will be set to 14265. During the API-call, a health-check is executed to the following:
-      peerAdress:apiPort/health
-      https://peerAdress/health
-      https://peerAdress/api/health
+- [optional] "apiPort": the port of the nodes API. If empty, the API port will be set to 14265. During the API-call, a health-check is executed to the following: peerAdress:apiPort/health | https://peerAdress/health | https://peerAdress/api/health
 - [mandatory] "peerID": the peering ID, that can be found on the nodes dashboard
 - [mandatory] "network": the network, the node is operating in. The possible values are: testnet, mainnet, comnet, devnet
 - [optional]  "eMail": a valid eMail-Adress
