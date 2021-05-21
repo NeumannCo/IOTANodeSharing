@@ -138,7 +138,7 @@
             } else {
                 $run = 1;
             }  
-            // run 1 is checking for DNS/health, run 2 is checking for DNS/api/health, run 3 is checking for IP
+            // run 1 and 2 are for direct DNS checking, run 3 is also a probable DNS-check, but is executed last because of the probability. For IP-address, the order is reversed.
             // if no DNS is provided, DNS-checks are skipped
 
             do {
